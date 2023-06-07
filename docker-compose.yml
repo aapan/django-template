@@ -1,0 +1,59 @@
+version: "3.6"
+services:
+  nginx:
+    container_name: project_name_nginx
+    build: ./nginx
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./project_name:/project
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - backend
+    networks:
+      - project_name_net
+
+  backend:
+    container_name: project_name_backend
+    build: ./project_name
+    command: ./docker-entrypoint.sh
+    env_file:
+      - project_name/.env
+    volumes:
+      - ./project_name:/project
+    depends_on:
+      - mariadb
+    networks:
+      - project_name_net
+    restart: always
+
+  mariadb:
+    container_name: project_name_mariadb
+    image: mariadb:10.2.8
+    # image: arm64v8/mariadb:latest
+    hostname: project_name_mariadb
+    env_file:
+      - project_name/.env
+    networks:
+      - project_name_net
+    volumes:
+      - project_name:/var/lib/mysql
+      - ./my.cnf:/etc/mysql/my.cnf
+    ports:
+      - "3308:3306"
+    restart: always
+
+  redis:
+    container_name: project_name_redis
+    image: redis:alpine
+    networks:
+      - project_name_net
+
+volumes:
+  project_name:
+
+
+networks:
+  project_name_net:
+    driver: bridge
