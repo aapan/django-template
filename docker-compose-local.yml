@@ -1,37 +1,43 @@
-version: "3.9"
+version: "3.6"
+
 services:
 
   backend:
     container_name: project_name
     build: ./project_name
-    command: python3 manage.py runserver 0.0.0.0:8000
+    command: python manage.py runserver 0.0.0.0:8000
+    restart: always
     env_file:
       - project_name/.env
-    volumes:
-      - ./project_name:/project
-    depends_on:
-      - mariadb
-    networks:
-      - project_name_net
     ports:
       - "8000:8000"
-    restart: always
+    depends_on:
+      - mariadb
+    volumes:
+      - ./project_name:/project
+    networks:
+      - project_name_net
 
   mariadb:
     container_name: project_name_mariadb
     image: mariadb:10.2.8
     # image: arm64v8/mariadb:latest
-    hostname: project_name_mariadb
+    restart: always
     env_file:
       - project_name/.env
-    networks:
-      - project_name_net
+    ports:
+      - "3306:3306"
     volumes:
       - project_name:/var/lib/mysql
       - ./my.cnf:/etc/mysql/my.cnf
-    ports:
-      - "3306:3306"
-    restart: always
+    networks:
+      - project_name_net
+
+  redis:
+    container_name: project_name_redis
+    image: redis:alpine
+    networks:
+      - project_name_net
 
 volumes:
   project_name:

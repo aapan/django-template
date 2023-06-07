@@ -1,16 +1,17 @@
 version: "3.6"
+
 services:
   nginx:
     container_name: project_name_nginx
     build: ./nginx
+    restart: always
     ports:
       - "80:80"
-    restart: always
+    depends_on:
+      - backend
     volumes:
       - ./project_name:/project
       - ./nginx/logs:/var/log/nginx
-    depends_on:
-      - backend
     networks:
       - project_name_net
 
@@ -18,31 +19,30 @@ services:
     container_name: project_name
     build: ./project_name
     command: ./docker-entrypoint.sh
+    restart: always
     env_file:
       - project_name/.env
-    volumes:
-      - ./project_name:/project
     depends_on:
       - mariadb
+    volumes:
+      - ./project_name:/project
     networks:
       - project_name_net
-    restart: always
 
   mariadb:
     container_name: project_name_mariadb
-    image: mariadb:10.2.8
-    # image: arm64v8/mariadb:latest
-    hostname: project_name_mariadb
+    # image: mariadb:10.2.8
+    image: arm64v8/mariadb:latest
+    restart: always
     env_file:
       - project_name/.env
-    networks:
-      - project_name_net
+    ports:
+      - "3306:3306"
     volumes:
       - project_name:/var/lib/mysql
       - ./my.cnf:/etc/mysql/my.cnf
-    ports:
-      - "3306:3306"
-    restart: always
+    networks:
+      - project_name_net
 
   redis:
     container_name: project_name_redis
