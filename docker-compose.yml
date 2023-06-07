@@ -15,7 +15,7 @@ services:
       - project_name_net
 
   backend:
-    container_name: project_name_backend
+    container_name: project_name
     build: ./project_name
     command: ./docker-entrypoint.sh
     env_file:
@@ -41,7 +41,7 @@ services:
       - project_name:/var/lib/mysql
       - ./my.cnf:/etc/mysql/my.cnf
     ports:
-      - "3308:3306"
+      - "3306:3306"
     restart: always
 
   redis:
