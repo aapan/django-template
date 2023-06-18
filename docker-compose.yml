@@ -6,7 +6,7 @@ services:
     build: ./nginx
     restart: always
     ports:
-      - "80:80"
+      - "${NGINX_PORT}:80"
     depends_on:
       - backend
     volumes:
@@ -17,11 +17,11 @@ services:
 
   backend:
     container_name: project_name
-    build: ./project_name
+    build: .
     command: ./docker-entrypoint.sh
     restart: always
     env_file:
-      - project_name/.env
+      - .env
     depends_on:
       - mariadb
     volumes:
@@ -31,11 +31,11 @@ services:
 
   mariadb:
     container_name: project_name_mariadb
-    # image: mariadb:10.2.8
-    image: arm64v8/mariadb:latest
+    image: mariadb:latest
+    # image: arm64v8/mariadb:latest
     restart: always
     env_file:
-      - project_name/.env
+      - .env
     ports:
       - "3306:3306"
     volumes:

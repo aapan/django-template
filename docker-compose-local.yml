@@ -4,11 +4,11 @@ services:
 
   backend:
     container_name: project_name
-    build: ./project_name
+    build: .
     command: python manage.py runserver 0.0.0.0:8000
     restart: always
     env_file:
-      - project_name/.env
+      - .env
     ports:
       - "8000:8000"
     depends_on:
@@ -20,11 +20,11 @@ services:
 
   mariadb:
     container_name: project_name_mariadb
-    image: mariadb:10.2.8
+    image: mariadb:latest
     # image: arm64v8/mariadb:latest
     restart: always
     env_file:
-      - project_name/.env
+      - .env
     ports:
       - "3306:3306"
     volumes:
