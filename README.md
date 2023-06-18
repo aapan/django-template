@@ -5,10 +5,8 @@ This repository provides a template for building Django projects with additional
 ## Table of Contents
 
 - [Features](#features)
-- [Prerequisites](#prerequisites)
 - [Getting Started](#getting-started)
-- [Usage](#usage)
-- [License](#license)
+- [References](#references)
 
 ## Features
 
@@ -38,8 +36,7 @@ cd <your_project_name>
 (Optional) If you want to start your project with a fresh Git repository, you can remove the existing .git directory and initialize a new Git repository:
 
 ```shell
-rm -rf .git 
-git init
+rm -rf .git && git init
 ```
 
 This step is optional and can be skipped if you prefer to keep the existing Git history of the template repository. It allows you to have a clean Git repository specifically for your project.
@@ -91,7 +88,7 @@ You can access your Django project at http://localhost:8000/ in your browser.
 
 <br>
 
-## Reference
+## References
 
 1. Django framework with a customizable project structure:
 
@@ -107,17 +104,10 @@ You can access your Django project at http://localhost:8000/ in your browser.
     
     Django REST Swagger package: https://github.com/axnsan12/drf-yasg
 
-4. MariaDB integration for the database layer:
-
-4. MariaDB official website: https://mariadb.org/
-
-5. Redis integration for caching and other Redis-based functionalities:
-
-    Redis official website: https://redis.io/
-
 6. Nginx configuration for serving static files and improving performance:
 
     Nginx official website: https://nginx.org/
+
     Nginx documentation: https://nginx.org/en/docs/
 
 These references provide detailed information, documentation, and resources for each feature, enabling you to explore and leverage their functionalities effectively in your Django project.
